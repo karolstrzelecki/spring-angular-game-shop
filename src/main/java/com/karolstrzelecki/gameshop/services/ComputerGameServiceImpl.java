@@ -137,15 +137,16 @@ public class ComputerGameServiceImpl implements ComputerGameService{
             ComputerGame existingCg = cg.get();
             Long currentGameId = existingCg.getComputerGameId();
             List<Copy> cp = existingCg.getCopies();
-            copies = cp.stream().map(e->{
+            copies = cp.stream().filter(e->
+              Objects.isNull(e.getShoppingCart())
+            ).map(e->{
                 SingleCopyDataDao singleCopyDataDao = new SingleCopyDataDao();
                 singleCopyDataDao.copy_id = e.getCopyId();
 //                singleCopyDataDao.game_id = currentGameId;
                 //
                 singleCopyDataDao.condition = Conditions.brandnew.name();
                         //e.getPlatform().getName();
-                System.out.println(singleCopyDataDao.condition);
-                System.out.println();
+
                 singleCopyDataDao.platform = e.getPlatform().getName();
                 singleCopyDataDao.price = String.valueOf(e.getPrice().doubleValue());
                 return singleCopyDataDao;

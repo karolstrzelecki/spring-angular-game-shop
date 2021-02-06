@@ -4,6 +4,7 @@ package com.karolstrzelecki.gameshop.models.Copy;
 
 
 import com.karolstrzelecki.gameshop.models.ComputerGame;
+import com.karolstrzelecki.gameshop.models.ShoppingCart;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,9 +30,21 @@ public abstract class Copy {
     @JoinColumn(name = "computerGameId")
     private ComputerGame computerGame;
 
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "shoppingCartId")
+    private ShoppingCart shoppingCart;
+
 
 
     public Copy() {
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     public Long getCopyId() {
@@ -78,5 +91,15 @@ public abstract class Copy {
         computerGame.addCopy(copy);
 
         return copy;
+    }
+
+    @Override
+    public String toString() {
+        return "Copy{" +
+                "copyId=" + copyId +
+                ", price=" + price +
+                ", platform=" + platform +
+                "shopping Cart" +shoppingCart;
+
     }
 }

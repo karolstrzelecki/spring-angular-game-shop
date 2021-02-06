@@ -2,6 +2,7 @@ package com.karolstrzelecki.gameshop.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -37,6 +38,9 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private ShoppingCart shoppingCart;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles",
 				joinColumns = @JoinColumn(name = "user_id"),
@@ -50,5 +54,13 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"shoppingCart=" + shoppingCart +
+				'}';
 	}
 }
